@@ -5,6 +5,7 @@
 using namespace std; 
 #define ALPHABET_SIZE (26) 
 #define CHAR_TO_INDEX(c) ((int)c - (int)'a') 
+int test_case = 1;
 struct TrieNode 
 { 
 	struct TrieNode *children[ALPHABET_SIZE]; 
@@ -59,10 +60,15 @@ bool isLastNode(struct TrieNode* root)
 			return 0; 
 	return 1; 
 } 
-void suggestionsRec(struct TrieNode* root, string currPrefix) 
+void suggestionsRec(struct TrieNode* root, string currPrefix ) 
 { 
 	if (root->isWordEnd) 
-	{ 
+	{ 	if(test_case == 1){
+		cout<<currPrefix<<" Not found\n";
+		cout<<"Did You Mean?\n";
+		test_case =0;
+		}
+
 		cout << currPrefix; 
 		cout << endl; 
 	} 
@@ -103,7 +109,6 @@ int printAutoSuggestions(TrieNode* root, const string query)
 	if (!isLast) 
 	{ 
 		string prefix = query; 
-		cout<<query<<" not found did you mean \n";
 		suggestionsRec(pCrawl, prefix); 
 		return 1; 
 	} 
@@ -119,15 +124,9 @@ int main()
 	cout<<"Enter the word ";
 	cin>>check;
 	int comp = printAutoSuggestions(root, check); 
-
-	if (comp == 0) 
-		cout << "No string found with this prefix\n"; 
-		check.pop_back();
-		int c=printAutoSuggestions(root, check); 
-		if(c==0){
-			cout<<"\nWord not found ";
-		}
-    getch();
-	
+	cout<<comp;
+	if(comp == 0){
+		
+	}
 	return 0; 
 } 
