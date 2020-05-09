@@ -1,7 +1,8 @@
-
 #include<iostream> 
 #include<string.h>
 #include<conio.h>
+#include <fstream> 
+
 using namespace std; 
 #define ALPHABET_SIZE (26) 
 #define CHAR_TO_INDEX(c) ((int)c - (int)'a') 
@@ -60,11 +61,11 @@ bool isLastNode(struct TrieNode* root)
 			return 0; 
 	return 1; 
 } 
-void suggestionsRec(struct TrieNode* root, string currPrefix ) 
+void suggestionsRec(struct TrieNode* root, string currPrefix , string quer) 
 { 
 	if (root->isWordEnd) 
 	{ 	if(test_case == 1){
-		cout<<currPrefix<<" Not found\n";
+		cout<<quer<<" Not found\n";
 		cout<<"Did You Mean?\n";
 		test_case =0;
 		}
@@ -80,7 +81,7 @@ void suggestionsRec(struct TrieNode* root, string currPrefix )
 		if (root->children[i]) 
 		{ 
 			currPrefix.push_back(97 + i); 
-			suggestionsRec(root->children[i], currPrefix); 
+			suggestionsRec(root->children[i], currPrefix , quer); 
 			currPrefix.pop_back(); 
 		} 
 	} 
@@ -109,24 +110,71 @@ int printAutoSuggestions(TrieNode* root, const string query)
 	if (!isLast) 
 	{ 
 		string prefix = query; 
-		suggestionsRec(pCrawl, prefix); 
+		suggestionsRec(pCrawl, prefix, query); 
 		return 1; 
 	} 
 } 
+
 int main() 
-{ 
+
+{ 	
+	int qqq =1;
 	string check;
 	struct TrieNode* root = getNode(); 
-	insert(root, "hello","gsrgr"); 
-	insert(root, "dog","gsrgr"); 
-	insert(root, "doof","gsrgr"); 
-	insert(root, "doon","gsrgr"); 
-	cout<<"Enter the word ";
-	cin>>check;
-	int comp = printAutoSuggestions(root, check); 
-	cout<<comp;
-	if(comp == 0){
-		
-	}
+	insert(root,"casuarina","a kind of tree with joined leaves");
+	insert(root,"cataclysm","deluge");
+	insert(root,"catalogue","a list");
+	insert(root,"catalogue","prepare a list of");
+	insert(root,"catamaran","a raft or float of pieces of wood");
+	insert(root,"cataract","a great fall of water; a disease of the eye");
+	insert(root,"catch","seize, grasp");
+	insert(root,"catch","grasp");
+	insert(root,"catchment","source from which rain water flows into");
+	insert(root,"catch word","a clue, a slogan");
+	insert(root,"catchy","attractive");
+	insert(root,"category","group");
+	insert(root,"celebrity","a well-known person");
+	insert(root,"celestial","heavenly");
+	insert(root,"celibacy","the state of being unmarried");
+    while(qqq = 1){
+        cout<<"\n======================D=I=C=T=I=O=N=A=R=Y==========================="<<endl;
+		cout<<"1.Show meaning"<<endl;
+		cout<<"2.Exit"<<endl;
+		int ch;
+		cin>>ch;
+		if(ch == 0){
+			qqq=0;
+			break;
+		}
+		else{
+			cout<<"\nEnter the word\n";
+			cin>>check;
+			int comp = printAutoSuggestions(root, check); 
+			if(comp == 0){
+				cout<<"Word Not found";
+				cout<<"\nWould you like to add it (y/n)";
+				char c;
+				cin>>c;
+				if(c=='y'){
+					cout<<"Enter the meaning ";
+					string mean;
+					cin>>mean;
+					insert(root, check,mean); 
+				}
+			}
+			if(comp == 1){
+				cout<<"\nWould you like to add "<<check<<"?";
+				char q;
+				cin>>q;
+				if(q == 'y'){
+					cout<<"Enter the meaning";
+					string m;
+					cin>>m;
+					insert(root, check,m); 
+				}
+			}
+		}
+    }
+
 	return 0; 
 } 
